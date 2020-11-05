@@ -1,0 +1,30 @@
+:root {
+  --background: #f0f0f0;
+}
+
+#pdfFilesContainer {
+  width: 100%;
+  height: 15rem;
+  background-color: var(--background);
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+  #pdfFilesContainer .file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 5rem;
+    margin: .5rem;
+  }
+    #pdfFilesContainer .file-item i {
+      font-size: 250%;
+    }
+    #pdfFilesContainer .file-item span {
+      margin-top: .5rem;
+    }
