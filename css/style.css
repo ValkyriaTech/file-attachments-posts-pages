@@ -8,23 +8,33 @@
   background-color: var(--background);
   overflow-y: auto;
   margin-bottom: 1rem;
-  padding: 1rem;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  padding: .5rem;
 }
   #pdfFilesContainer .file-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 4rem;
-    height: 5rem;
-    margin: .5rem;
+    width: 100%;
   }
     #pdfFilesContainer .file-item i {
-      font-size: 250%;
+      font-size: 120%;
     }
     #pdfFilesContainer .file-item span {
-      margin-top: .5rem;
+      margin-left: .5rem;
+      margin-right: 1rem;
     }
+    #pdfFilesContainer .file-item .action-btns {
+      display: none;
+      justify-content: flex-end;
+      align-items: center;
+    }
+      #pdfFilesContainer .file-item:hover .action-btns {
+        display: flex;
+      }
+      #pdfFilesContainer .file-item .action-btns a {
+        margin-right: .5rem;
+      }
+      #pdfFilesContainer .file-item .action-btns i {
+        cursor: pointer;
+      }

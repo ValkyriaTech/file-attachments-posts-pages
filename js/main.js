@@ -1,4 +1,4 @@
-var wppdFileUrls = [];
+var wppdFileUrls = {};
 
 function docReady(fn) {
   // see if DOM is already available
@@ -26,8 +26,15 @@ function uploadFile(singleFile) {
       let resp = this.response;
       if(resp != null && resp != '') {
 
-        wppdFileUrls.push(resp);
-        document.getElementById('pdfFilesContainer').innerHTML += '<div class="file-item"><i class="far fa-file"></i><span>' + singleFile.name + '</span></div>';
+        wppdFileUrls[singleFile.name] = resp;
+        document.getElementById('pdfFilesContainer').innerHTML += '<li class="file-item" id="attachment_' + resp + '">' +
+            '<i class="far fa-file"></i>' +
+            '<span>' + singleFile.name.substring(0, 15) + ((singleFile.name.length > 15) ? ('[...]' + singleFile.name.substring(singleFile.name.length - 4, singleFile.name.length)) : '') + '</span>' +
+            '<div class="action-btns">' +
+              '<a class="link-btn" href="' + resp + '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>' +
+              '<i data-name="' + singleFile.name + '" data-url="' + resp + '" class="fas fa-times remove-btn"></i>' +
+            '</div>' +
+          '</li>';
         document.getElementById('wppd_pdf_file_list').value = JSON.stringify(wppdFileUrls);
 
       }
@@ -56,5 +63,25 @@ docReady(function() {
 
     });
   }
+
+  if(document.getElementById('wppd_pdf_file_list')) {
+    let fileList = document.getElementById('wppd_pdf_file_list_value').innerHTML;
+    if(fileList != null && fileList != '')
+      wppdFileUrls = JSON.parse(fileList);
+  }
+
+  document.addEventListener('click', function(e) {
+    for (var target = e.target; target && target != this; target = target.parentNode)
+      if (target.matches('.remove-btn')) {
+        let fileName = target.getAttribute('data-name');
+        let fileUrl = target.getAttribute('data-url');
+
+        delete wppdFileUrls[fileName];
+        let fileItem = document.getElementById('attachment_' + fileUrl);
+        fileItem.remove();
+
+        document.getElementById('wppd_pdf_file_list').value = JSON.stringify(wppdFileUrls);
+      }
+  });
 
 });

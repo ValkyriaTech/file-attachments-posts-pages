@@ -26,10 +26,29 @@
   */
 
   function wppd_pdf_files_block(){
+
+    $attachments = get_post_meta(get_the_ID(), 'wppd_pdf_file_list', true) ?? '';
+
+    $attachmentsListBlock = '';
+    if(!empty($attachments)) {
+      $attJson = json_decode($attachments);
+      foreach ($attJson as $filename => $fileUrl) {
+        $attachmentsListBlock .= '<li class="file-item" id="attachment_' . $fileUrl . '">
+          <i class="far fa-file"></i>
+          <span>' . substr($filename, 0, 15) . ((strlen($filename) > 15) ? ('[...]' . substr($filename, strlen($filename) - 4, strlen($filename))) : '') . '</span>
+          <div class="action-btns">
+            <a class="link-btn" href="' . $fileUrl . '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>
+            <i data-name="' . $filename . '" data-url="' . $fileUrl . '" class="fas fa-times remove-btn"></i>
+          </div>
+        </li>';
+      }
+    }
+
     $html = '
-      <div id="pdfFilesContainer"></div>
+      <ul id="pdfFilesContainer">' . $attachmentsListBlock . '</ul>
       <input type="file" id="wppd_pdf_file" name="wppd_pdf_file" value="" size="25"/>
-      <input type="hidden" id="wppd_pdf_file_list" name="wppd_pdf_file_list" value=""/>
+      <input type="hidden" id="wppd_pdf_file_list" name="wppd_pdf_file_list"/>
+      <div style="display: none;" id="wppd_pdf_file_list_value">' . $attachments . '</div>
     ';
 
     echo $html;
