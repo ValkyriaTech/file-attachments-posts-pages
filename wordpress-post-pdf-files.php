@@ -58,7 +58,7 @@
 
     wp_enqueue_script(
       'main',
-      plugin_dir_url(__FILE__) . 'js/main.js',
+      plugin_dir_url(__FILE__) . 'js/main.min.js',
       null,
       true
     );
@@ -73,7 +73,7 @@
 
     wp_enqueue_style(
       'style',
-      plugin_dir_url(__FILE__) . 'css/style.css',
+      plugin_dir_url(__FILE__) . 'css/style.min.css',
       null,
       '1.0.0',
       'screen'
