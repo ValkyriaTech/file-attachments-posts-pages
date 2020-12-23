@@ -1,17 +1,17 @@
 <?php
 
   /*
-    This file is part of Icons Picker for FontAwesome.
-    Icons Picker for FontAwesome is free software: you can redistribute it and/or modify
+    This file is part of PDF Files for WordPress Posts.
+    PDF Files for WordPress Posts is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    Icons Picker for FontAwesome is distributed in the hope that it will be useful,
+    PDF Files for WordPress Posts is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with Icons Picker for FontAwesome.  If not, see <https://www.gnu.org/licenses/>
+    along with PDF Files for WordPress Posts.  If not, see <https://www.gnu.org/licenses/>
   */
 
   /*
