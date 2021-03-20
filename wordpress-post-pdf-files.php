@@ -1,26 +1,26 @@
 <?php
 
   /*
-    This file is part of PDF Files for WordPress Posts.
-    PDF Files for WordPress Posts is free software: you can redistribute it and/or modify
+    This file is part of PDF Attachments for WordPress Posts & Pages.
+    PDF Attachments for WordPress Posts & Pages is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    PDF Files for WordPress Posts is distributed in the hope that it will be useful,
+    PDF Attachments for WordPress Posts & Pages is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with PDF Files for WordPress Posts.  If not, see <https://www.gnu.org/licenses/>
+    along with PDF Attachments for WordPress Posts & Pages.  If not, see <https://www.gnu.org/licenses/>
   */
 
   /*
-  * Plugin Name: PDF Files for WordPress Posts
-  * Plugin URI: https://github.com/Valkyria-tech/wordpress-post-pdf-files
+  * Plugin Name: PDF Attachments for WordPress Posts & Pages
+  * Plugin URI: https://github.com/ValkyriaTech/wordpress-post-pdf-files/
   * Description:
-  * Version: 0.0.1
-  * Author: Victor Andeloci - ValkyriaTech
-  * Author URI: https://github.com/victorandeloci
+  * Version: 1.0.0
+  * Author: ValkyriaTech
+  * Author URI: https://github.com/ValkyriaTech
   * License: GPLv3
   * License URI: https://www.gnu.org/licenses/gpl-3.0.pt-br.html
   */
@@ -35,7 +35,7 @@
       foreach ($attJson as $filename => $fileUrl) {
         $attachmentsListBlock .= '<li class="file-item" id="attachment_' . $fileUrl . '">
           <i class="far fa-file"></i>
-          <span>' . substr($filename, 0, 15) . ((strlen($filename) > 15) ? ('[...]' . substr($filename, strlen($filename) - 4, strlen($filename))) : '') . '</span>
+          <input type="text" class="filename-controller" data-filename="' . $filename . '" value = "' . $filename . '"></input>
           <div class="action-btns">
             <a class="link-btn" href="' . $fileUrl . '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>
             <i data-name="' . $filename . '" data-url="' . $fileUrl . '" class="fas fa-times remove-btn"></i>
@@ -58,7 +58,7 @@
 
     wp_enqueue_script(
       'main',
-      plugin_dir_url(__FILE__) . 'js/main.min.js',
+      plugin_dir_url(__FILE__) . 'js/main.js',
       null,
       true
     );
@@ -81,11 +81,19 @@
 
     //custom metabox
     add_meta_box(
-        'wppd_pdf_files_block',
-        'Arquivos PDF',
-        'wppd_pdf_files_block',
-        'post',
-        'side'
+      'wppd_pdf_files_block',
+      'Arquivos PDF',
+      'wppd_pdf_files_block',
+      'post',
+      'side'
+    );
+
+    add_meta_box(
+      'wppd_pdf_files_block',
+      'Arquivos PDF',
+      'wppd_pdf_files_block',
+      'page',
+      'side'
     );
 
   }

@@ -1,4 +1,4 @@
-# PDF Files for WordPress Posts
+# PDF Attachments for WordPress Posts & Pages
 This plugin will add a custom metabox controller to attach PDF files to WordPress posts
 
 The custom metabox name is <code>wppd_pdf_file_list</code>. It's saved as a JSON *string* list

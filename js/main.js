@@ -27,9 +27,10 @@ function uploadFile(singleFile) {
       if(resp != null && resp != '') {
 
         wppdFileUrls[singleFile.name] = resp;
+
         document.getElementById('pdfFilesContainer').innerHTML += '<li class="file-item" id="attachment_' + resp + '">' +
             '<i class="far fa-file"></i>' +
-            '<span>' + singleFile.name.substring(0, 15) + ((singleFile.name.length > 15) ? ('[...]' + singleFile.name.substring(singleFile.name.length - 4, singleFile.name.length)) : '') + '</span>' +
+            '<input class="filename-controller" data-filename="' + singleFile.name + '" type="text" value="' + singleFile.name.substring(0, 15) + ((singleFile.name.length > 15) ? '[...]' : '') + '"></input>' +
             '<div class="action-btns">' +
               '<a class="link-btn" href="' + resp + '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>' +
               '<i data-name="' + singleFile.name + '" data-url="' + resp + '" class="fas fa-times remove-btn"></i>' +
@@ -69,6 +70,17 @@ docReady(function() {
     if(fileList != null && fileList != '')
       wppdFileUrls = JSON.parse(fileList);
   }
+
+  document.addEventListener('change', function(e) {
+    for (var target = e.target; target && target != this; target = target.parentNode)
+      if (target.matches('.filename-controller')) {
+
+        wppdFileUrls[target.value] = wppdFileUrls[target.getAttribute('data-filename')];
+        delete wppdFileUrls[target.getAttribute('data-filename')];
+
+        document.getElementById('wppd_pdf_file_list').value = JSON.stringify(wppdFileUrls);
+      }
+  });
 
   document.addEventListener('click', function(e) {
     for (var target = e.target; target && target != this; target = target.parentNode)

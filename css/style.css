@@ -20,6 +20,11 @@
     #pdfFilesContainer .file-item i {
       font-size: 120%;
     }
+    #pdfFilesContainer .file-item input {
+      width: 7rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+    }
     #pdfFilesContainer .file-item span {
       margin-left: .5rem;
       margin-right: 1rem;
