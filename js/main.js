@@ -1,4 +1,6 @@
-var wppdFileUrls = {};
+var wppaAtachments = [];
+
+Dropzone.autoDiscover = false;
 
 function docReady(fn) {
   // see if DOM is already available
@@ -10,15 +12,28 @@ function docReady(fn) {
   }
 }
 
-function uploadFile(singleFile) {
+function getAttachmentDetails(fileUrl, fileName) {
+
+  let dialog = document.getElementById('attachmentDialog');
+
+  dialog.querySelector('#wppa_attachmentTitle').value = fileName;
+  dialog.querySelector('#wppa_attachmentTitleShow').innerHTML = fileName;
+
+  dialog.querySelector('#wppa_attachmentFileUrl').value = fileUrl;
+
+  dialog.classList.add('attach-dialog-show');
+
+}
+
+function uploadAttachCover(singleFile) {
 
   let formData = new FormData();
 
   formData.append('file', singleFile, singleFile.name);
-  formData.append('action', 'wppdUploadFile');
+  formData.append('action', 'wppaUploadImage');
 
   let request = new XMLHttpRequest();
-  request.open("POST", '//' + window.location.host + '/wp-admin/admin-ajax.php', true);
+  request.open("POST", '//' + window.location.host + '/cogna/wp-admin/admin-ajax.php', true);
 
   request.onload = function() {
     if (this.status >= 200 && this.status < 400) {
@@ -26,17 +41,7 @@ function uploadFile(singleFile) {
       let resp = this.response;
       if(resp != null && resp != '') {
 
-        wppdFileUrls[singleFile.name] = resp;
-
-        document.getElementById('pdfFilesContainer').innerHTML += '<li class="file-item" id="attachment_' + resp + '">' +
-            '<i class="far fa-file"></i>' +
-            '<input class="filename-controller" data-filename="' + singleFile.name + '" type="text" value="' + singleFile.name.substring(0, 15) + ((singleFile.name.length > 15) ? '[...]' : '') + '"></input>' +
-            '<div class="action-btns">' +
-              '<a class="link-btn" href="' + resp + '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>' +
-              '<i data-name="' + singleFile.name + '" data-url="' + resp + '" class="fas fa-times remove-btn"></i>' +
-            '</div>' +
-          '</li>';
-        document.getElementById('wppd_pdf_file_list').value = JSON.stringify(wppdFileUrls);
+        document.getElementById('wppa_attachmentCoverImageShow').setAttribute('src', resp);
 
       }
 
@@ -55,45 +60,52 @@ function uploadFile(singleFile) {
 
 docReady(function() {
 
-  if(document.getElementById('wppd_pdf_file')) {
-    let inputElement = document.getElementById('wppd_pdf_file');
+  if(fileList != null && fileList != '')
+    wppaAtachments = JSON.parse(fileList);
+
+  var attachmentDropzone = new Dropzone('div#attachmentDropzone', {
+    dictDefaultMessage: 'Solte arquivos aqui',
+    init: function() {
+      this.on('success', function(file, response) {
+
+        getAttachmentDetails(response, file.name);
+
+      });
+    }
+  });
+
+  if (document.getElementById('attachmentDialog')) {
+
+    let dialog = document.getElementById('attachmentDialog');
+
+    document.getElementById('wppa_attachmentTitle').addEventListener('change', function() {
+      document.getElementById('wppa_attachmentTitleShow').innerHTML = this.value;
+    });
+
+    let inputElement = document.getElementById('wppa_attachmentCoverImage');
     inputElement.addEventListener('change', function() {
 
       let singleFile = inputElement.files[0];
-      uploadFile(singleFile);
+      uploadAttachCover(singleFile);
+
+    });
+
+    document.getElementById('wppa_attachmentSend').addEventListener('click', function() {
+
+      let uploadedFile = {
+        name: document.getElementById('wppa_attachmentTitle').value,
+        cover_image: document.getElementById('wppa_attachmentCoverImageShow').getAttribute('src'),
+        url: document.getElementById('wppa_attachmentFileUrl').value
+      };
+
+      wppaAtachments.push(uploadedFile);
+      document.getElementById('wppa_attachment_list').value = JSON.stringify(wppaAtachments);
+
+      // ------- mostrar arquivos na lista --------
+
+      dialog.classList.remove('attach-dialog-show');
 
     });
   }
-
-  if(document.getElementById('wppd_pdf_file_list')) {
-    let fileList = document.getElementById('wppd_pdf_file_list_value').innerHTML;
-    if(fileList != null && fileList != '')
-      wppdFileUrls = JSON.parse(fileList);
-  }
-
-  document.addEventListener('change', function(e) {
-    for (var target = e.target; target && target != this; target = target.parentNode)
-      if (target.matches('.filename-controller')) {
-
-        wppdFileUrls[target.value] = wppdFileUrls[target.getAttribute('data-filename')];
-        delete wppdFileUrls[target.getAttribute('data-filename')];
-
-        document.getElementById('wppd_pdf_file_list').value = JSON.stringify(wppdFileUrls);
-      }
-  });
-
-  document.addEventListener('click', function(e) {
-    for (var target = e.target; target && target != this; target = target.parentNode)
-      if (target.matches('.remove-btn')) {
-        let fileName = target.getAttribute('data-name');
-        let fileUrl = target.getAttribute('data-url');
-
-        delete wppdFileUrls[fileName];
-        let fileItem = document.getElementById('attachment_' + fileUrl);
-        fileItem.remove();
-
-        document.getElementById('wppd_pdf_file_list').value = JSON.stringify(wppdFileUrls);
-      }
-  });
 
 });
