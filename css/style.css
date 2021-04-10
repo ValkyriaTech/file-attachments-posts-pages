@@ -1,5 +1,43 @@
 :root {
   --background: #f0f0f0;
+  --itemHover: #d0d0d0;
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  margin-left: .5rem;
+}
+  .lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 2px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+  }
+    .lds-ring div:nth-child(1) {
+      animation-delay: -0.45s;
+    }
+    .lds-ring div:nth-child(2) {
+      animation-delay: -0.3s;
+    }
+    .lds-ring div:nth-child(3) {
+      animation-delay: -0.15s;
+    }
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 #attachmentDropzone {
@@ -21,9 +59,19 @@
   border-radius: 1rem;
   overflow: hidden;
   display: none;
+  padding: 0 1rem;
 }
   .attach-dialog-show {
     display: block !important;
+  }
+  #attachmentDialog #closeAttachmentDialog {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 150%;
+    cursor: pointer;
   }
   #attachmentDialog .row {
     display: flex;
@@ -41,19 +89,28 @@
       #attachmentDialog .row .column img {
         width: 90%;
         height: auto;
+        border-radius: .2rem;
+      }
+      #attachmentDialog .row .column #wppa_attachmentCoverImage {
+        display: none;
+      }
+      #attachmentDialog .row .column #wppa_attachmentCoverImageLabel i {
+        margin-right: .5rem;
+        font-size: 120%;
       }
       #attachmentDialog .row .column input {
         width: 80%;
         margin-bottom: 2rem;
       }
-      #attachmentDialog .row .column button {
-        width: 3rem;
-        margin-top: 5rem;
-        display: grid;
-        place-items: center;
+      #attachmentDialog .row .column #wppa_attachmentSend {
+        width: 5rem;
+        margin-top: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-#pdfFilesContainer {
+#attachmentsContainer {
   width: 100%;
   height: 15rem;
   background-color: var(--background);
@@ -61,36 +118,32 @@
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  padding: .5rem;
 }
-  #pdfFilesContainer .file-item {
+  #attachmentsContainer .att-item {
     display: flex;
     align-items: center;
     width: 100%;
+    padding: 1rem;
   }
-    #pdfFilesContainer .file-item i {
-      font-size: 120%;
+    #attachmentsContainer .att-item:hover {
+      background-color: var(--itemHover);
     }
-    #pdfFilesContainer .file-item input {
-      width: 7rem;
-      margin-left: 1rem;
-      margin-right: 2rem;
-    }
-    #pdfFilesContainer .file-item span {
-      margin-left: .5rem;
-      margin-right: 1rem;
-    }
-    #pdfFilesContainer .file-item .action-btns {
+    #attachmentsContainer .att-item .action-btns {
       display: none;
-      justify-content: flex-end;
-      align-items: center;
     }
-      #pdfFilesContainer .file-item:hover .action-btns {
+      #attachmentsContainer .att-item:hover .action-btns {
         display: flex;
       }
-      #pdfFilesContainer .file-item .action-btns a {
+      #attachmentsContainer .att-item a {
         margin-right: .5rem;
       }
-      #pdfFilesContainer .file-item .action-btns i {
+      #attachmentsContainer .att-item i {
+        font-size: 120%;
         cursor: pointer;
+        margin-right: .5rem;
+      }
+      #attachmentsContainer .att-item span {
+        margin-left: .5rem;
+        margin-right: 1rem;
+        width: 7.5rem;
       }

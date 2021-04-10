@@ -1,24 +1,10 @@
 <?php
 
   /*
-    This file is part of PDF Attachments for WordPress Posts & Pages.
-    PDF Attachments for WordPress Posts & Pages is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    PDF Attachments for WordPress Posts & Pages is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with PDF Attachments for WordPress Posts & Pages.  If not, see <https://www.gnu.org/licenses/>
-  */
-
-  /*
   * Plugin Name: PDF Attachments for WordPress Posts & Pages
   * Plugin URI: https://github.com/ValkyriaTech/wordpress-post-pdf-files/
   * Description:
-  * Version: 1.1.0
+  * Version: 2.0.0
   * Author: ValkyriaTech
   * Author URI: https://github.com/ValkyriaTech
   * License: GPLv3
@@ -32,13 +18,13 @@
     $attachmentsListBlock = '';
     if(!empty($attachments)) {
       $attJson = json_decode($attachments);
-      foreach ($attJson as $filename => $fileUrl) {
-        $attachmentsListBlock .= '<li class="file-item" id="attachment_' . $fileUrl . '">
-          <i class="far fa-file"></i>
-          <input type="text" class="filename-controller" data-filename="' . $filename . '" value = "' . $filename . '"></input>
+      foreach ($attJson as $key => $attachment) {
+        $attachmentsListBlock .= '<li class="att-item" id="attachment_' . $key . '">
+          <span>' . $attachment->name . '</span>
           <div class="action-btns">
-            <a class="link-btn" href="' . $fileUrl . '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>
-            <i data-name="' . $filename . '" data-url="' . $fileUrl . '" class="fas fa-times remove-btn"></i>
+            <a title="Abrir" class="link-btn" href="' . $attachment->url . '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>
+            <i title="Detalhes" data-key="' . $key . '" class="fas fa-edit edit-btn"></i>
+            <i title="Remover" data-key="' . $key . '" class="fas fa-times remove-btn"></i>
           </div>
         </li>';
       }
@@ -47,16 +33,22 @@
     ?>
 
       <div id="attachmentDialog">
+        <button type="button" id="closeAttachmentDialog">
+          <i class="fas fa-times"></i>
+        </button>
         <div class="row">
           <div class="column">
             <h3 id="wppa_attachmentTitleShow">Attachment Cover</h3>
-            <img id="wppa_attachmentCoverImageShow" src="<?= plugin_dir_url(__FILE__) . 'img/default.jpg' ?>" alt="Attachment Cover">
+            <img title="Imagem de capa do anexo" id="wppa_attachmentCoverImageShow" src="<?= plugin_dir_url(__FILE__) . 'img/default.jpg' ?>" alt="Attachment Cover">
           </div>
           <div class="column">
             <h3>Detalhes do anexo:</h3>
             <input placeholder="Título" type="text" name="wppa_attachmentTitle" id="wppa_attachmentTitle">
             <br>
-            <label for="wppa_attachmentCoverImage">Imagem de Capa:</label>
+            <label for="wppa_attachmentCoverImage" class="components-button is-secondary" id="wppa_attachmentCoverImageLabel" >
+              <i class="far fa-file-image"></i>
+              Alterar imagem de capa
+            </label>
             <input type="file" id="wppa_attachmentCoverImage" name="wppa_attachmentCoverImage" value="" size="25"/>
             <input type="hidden" name="wppa_attachmentFileUrl" id="wppa_attachmentFileUrl" value="">
             <button class="components-button is-primary" type="button" name="wppa_attachmentSend" id="wppa_attachmentSend">Salvar</button>
@@ -65,9 +57,12 @@
       </div>
 
       <div action="<?= get_site_url() . '/wp-admin/admin-ajax.php?action=wppaUploadFile' ?>" id="attachmentDropzone" class="dropzone"></div>
-      <ul id="pdfFilesContainer"><?= $attachmentsListBlock ?></ul>
+      <ul id="attachmentsContainer"><?= $attachmentsListBlock ?></ul>
       <input type="hidden" id="wppa_attachment_list" name="wppa_attachment_list"/>
-      <script>let fileList = <?= (!empty($attachments) ? $attachments : '""') ?>;</script>
+      <script>
+        var wpApiUrl = '<?= get_site_url() ?>/wp-admin/admin-ajax.php';
+        var fileList = <?= (!empty($attachments) ? json_encode($attachments) : '""') ?>;
+      </script>
     <?php
   }
 
@@ -82,7 +77,7 @@
 
     wp_enqueue_script(
       'main',
-      plugin_dir_url(__FILE__) . 'js/main.js',
+      plugin_dir_url(__FILE__) . 'js/main.min.js',
       null,
       true
     );
@@ -105,7 +100,7 @@
 
     wp_enqueue_style(
       'style',
-      plugin_dir_url(__FILE__) . 'css/style.css',
+      plugin_dir_url(__FILE__) . 'css/style.min.css',
       null,
       '2.0.0',
       'screen'
