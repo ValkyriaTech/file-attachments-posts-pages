@@ -11,6 +11,66 @@
   * License URI: https://www.gnu.org/licenses/gpl-3.0.pt-br.html
   */
 
+  function loadPdfFilesBox() {
+
+    wp_enqueue_script(
+      'dropzone',
+      plugin_dir_url(__FILE__) . 'js/dropzone.min.js',
+      null,
+      true
+    );
+
+    wp_enqueue_script(
+      'main',
+      plugin_dir_url(__FILE__) . 'js/main.min.js',
+      null,
+      true
+    );
+
+    wp_enqueue_style(
+      'fontawesome-css',
+      plugin_dir_url(__FILE__) . 'css/all.min.css',
+      null,
+      '5.15.1',
+      'screen'
+    );
+
+    wp_enqueue_style(
+      'dropzone-css',
+      plugin_dir_url(__FILE__) . 'css/dropzone.min.css',
+      null,
+      '5.7.2',
+      'screen'
+    );
+
+    wp_enqueue_style(
+      'style',
+      plugin_dir_url(__FILE__) . 'css/style.css',
+      null,
+      '2.0.0',
+      'screen'
+    );
+
+    //custom metabox
+    add_meta_box(
+      'wppa_attachments_block',
+      'Anexos',
+      'wppa_attachments_block',
+      'post',
+      'side'
+    );
+
+    add_meta_box(
+      'wppa_attachments_block',
+      'Anexos',
+      'wppa_attachments_block',
+      'page',
+      'side'
+    );
+
+  }
+  add_action('add_meta_boxes', 'loadPdfFilesBox');
+
   function wppa_attachments_block(){
 
     $attachments = get_post_meta(get_the_ID(), 'wppa_attachment_list', true) ?? '';
@@ -65,66 +125,6 @@
       </script>
     <?php
   }
-
-  function loadPdfFilesBox() {
-
-    wp_enqueue_script(
-      'dropzone',
-      plugin_dir_url(__FILE__) . 'js/dropzone.min.js',
-      null,
-      true
-    );
-
-    wp_enqueue_script(
-      'main',
-      plugin_dir_url(__FILE__) . 'js/main.min.js',
-      null,
-      true
-    );
-
-    wp_enqueue_style(
-      'fontawesome-css',
-      plugin_dir_url(__FILE__) . 'css/all.min.css',
-      null,
-      '5.15.1',
-      'screen'
-    );
-
-    wp_enqueue_style(
-      'dropzone-css',
-      plugin_dir_url(__FILE__) . 'css/dropzone.min.css',
-      null,
-      '5.7.2',
-      'screen'
-    );
-
-    wp_enqueue_style(
-      'style',
-      plugin_dir_url(__FILE__) . 'css/style.min.css',
-      null,
-      '2.0.0',
-      'screen'
-    );
-
-    //custom metabox
-    add_meta_box(
-      'wppa_attachments_block',
-      'Anexos',
-      'wppa_attachments_block',
-      'post',
-      'side'
-    );
-
-    add_meta_box(
-      'wppa_attachments_block',
-      'Anexos',
-      'wppa_attachments_block',
-      'page',
-      'side'
-    );
-
-  }
-  add_action('add_meta_boxes', 'loadPdfFilesBox');
 
   function wppa_metabox_save( $post_id ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;

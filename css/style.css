@@ -45,6 +45,7 @@
   height: 10rem;
   border: solid 1px grey;
   border-radius: .5rem;
+  overflow-y: auto;
 }
 
 #attachmentDialog {
