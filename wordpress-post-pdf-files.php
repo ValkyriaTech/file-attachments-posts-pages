@@ -45,7 +45,7 @@
 
     wp_enqueue_style(
       'style',
-      plugin_dir_url(__FILE__) . 'css/style.css',
+      plugin_dir_url(__FILE__) . 'css/style.min.css',
       null,
       '2.0.0',
       'screen'
