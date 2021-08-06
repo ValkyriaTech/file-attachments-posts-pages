@@ -147,7 +147,7 @@
     $attachments = $_FILES['file'];
 
     // Setup the array of supported file types. In this case, it's just PDF.
-    $supported_types = array('application/pdf');
+    $supported_types = array('application/pdf', 'application/vnd.oasis.opendocument.text', 'application/msword');
 
     // Get the file type of the upload
     $arr_file_type = wp_check_filetype(basename($attachments['name']));
