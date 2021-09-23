@@ -4,7 +4,7 @@
   * Plugin Name: PDF Attachments for WordPress Posts & Pages
   * Plugin URI: https://github.com/ValkyriaTech/wordpress-post-pdf-files/
   * Description:
-  * Version: 2.0.0
+  * Version: 2.0.1
   * Author: ValkyriaTech
   * Author URI: https://github.com/ValkyriaTech
   * License: GPLv3
@@ -47,7 +47,7 @@
       'style',
       plugin_dir_url(__FILE__) . 'css/style.min.css',
       null,
-      '2.0.0',
+      '2.0.1',
       'screen'
     );
 
@@ -118,7 +118,7 @@
 
       <div action="<?= get_site_url() . '/wp-admin/admin-ajax.php?action=wppaUploadFile' ?>" id="attachmentDropzone" class="dropzone"></div>
       <ul id="attachmentsContainer"><?= $attachmentsListBlock ?></ul>
-      <input type="hidden" id="wppa_attachment_list" name="wppa_attachment_list"/>
+      <input type="hidden" id="wppa_attachment_list" name="wppa_attachment_list" value='<?= $attachments ?>'/>
       <script>
         var wpApiUrl = '<?= get_site_url() ?>/wp-admin/admin-ajax.php';
         var fileList = <?= (!empty($attachments) ? json_encode($attachments) : '""') ?>;
