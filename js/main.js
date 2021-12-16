@@ -30,6 +30,7 @@ function getAttachmentDetails(fileUrl, fileName, attachmentKey = null, attachmen
   let dialog = document.getElementById('attachmentDialog');
 
   dialog.querySelector('#wppa_attachmentTitle').value = fileName;
+  dialog.querySelector('#wppa_attachmentDescription').value = fileName;
   dialog.querySelector('#wppa_attachmentTitleShow').innerHTML = fileName;
 
   dialog.querySelector('#wppa_attachmentFileUrl').value = fileUrl;
@@ -121,6 +122,7 @@ docReady(function() {
 
       let uploadedFile = {
         name: document.getElementById('wppa_attachmentTitle').value,
+        description: document.getElementById('wppa_attachmentDescription').value,
         cover_image: document.getElementById('wppa_attachmentCoverImageShow').getAttribute('src'),
         url: document.getElementById('wppa_attachmentFileUrl').value
       };

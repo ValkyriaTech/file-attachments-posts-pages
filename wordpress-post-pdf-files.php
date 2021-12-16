@@ -105,6 +105,8 @@
             <h3>Detalhes do anexo:</h3>
             <input placeholder="Título" type="text" name="wppa_attachmentTitle" id="wppa_attachmentTitle">
             <br>
+            <textarea placeholder="Descrição" type="text" name="wppa_attachmentDescription" id="wppa_attachmentDescription"></textarea>
+            <br>
             <label for="wppa_attachmentCoverImage" class="components-button is-secondary" id="wppa_attachmentCoverImageLabel" >
               <i class="far fa-file-image"></i>
               Alterar imagem de capa

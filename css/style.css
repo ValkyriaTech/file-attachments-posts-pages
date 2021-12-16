@@ -100,7 +100,11 @@
         font-size: 120%;
       }
       #attachmentDialog .row .column input {
-        width: 80%;
+        width: 90%;
+        margin-bottom: 2rem;
+      }
+      #attachmentDialog .row .column textarea {
+        width: 90%;
         margin-bottom: 2rem;
       }
       #attachmentDialog .row .column #wppa_attachmentSend {
