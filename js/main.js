@@ -179,7 +179,7 @@ docReady(function() {
       } else if (target.matches('.edit-btn')) {
 
         let attachment = wppaAtachments[target.getAttribute('data-key')];
-        getAttachmentDetails(attachment.url, attachment.name, target.getAttribute('data-key'), attachment.cover_image);
+        getAttachmentDetails(attachment.url, attachment.name, attachment.description, target.getAttribute('data-key'), attachment.cover_image);
 
       }
   });
