@@ -102,9 +102,8 @@ docReady(function() {
     }
   });
 
-  if (document.getElementById('attachmentDialog')) {
-
-    let dialog = document.getElementById('attachmentDialog');
+  let dialog = document.getElementById('attachmentDialog');
+  if (dialog) {
 
     document.getElementById('wppa_attachmentTitle').addEventListener('change', function() {
       document.getElementById('wppa_attachmentTitleShow').innerHTML = this.value;
@@ -129,12 +128,15 @@ docReady(function() {
 
       // editing
       if (this.getAttribute('data-key')) {
+
         let key = this.getAttribute('data-key');
         wppaAtachments[key] = uploadedFile;
+        console.log(key);
         let attItemBlock = document.getElementById('attachment_' + key);
+        console.log(attItemBlock);
         attItemBlock.querySelector('span').innerHTML = uploadedFile.name;
-      }
-      else {
+
+      } else {
         wppaAtachments.push(uploadedFile);
 
         let attachmentItemBlock = '<li class="att-item" id="attachment_' + (wppaAtachments.length - 1) + '">' +
@@ -179,7 +181,7 @@ docReady(function() {
       } else if (target.matches('.edit-btn')) {
 
         let attachment = wppaAtachments[target.getAttribute('data-key')];
-        getAttachmentDetails(attachment.url, attachment.name, attachment.description, target.getAttribute('data-key'), attachment.cover_image);
+        getAttachmentDetails(attachment.url, attachment.name, target.getAttribute('data-key'), attachment.cover_image);
 
       }
   });
