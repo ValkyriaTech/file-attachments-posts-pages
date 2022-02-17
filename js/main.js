@@ -25,12 +25,12 @@ function loader(elementId, action = 'start') {
   }
 }
 
-function getAttachmentDetails(fileUrl, fileName, attachmentKey = null, attachmentCoverImage = null) {
+function getAttachmentDetails(fileUrl, fileName, description = null, attachmentKey = null, attachmentCoverImage = null) {
 
   let dialog = document.getElementById('attachmentDialog');
 
   dialog.querySelector('#wppa_attachmentTitle').value = fileName;
-  dialog.querySelector('#wppa_attachmentDescription').value = fileName;
+  dialog.querySelector('#wppa_attachmentDescription').value = description;
   dialog.querySelector('#wppa_attachmentTitleShow').innerHTML = fileName;
 
   dialog.querySelector('#wppa_attachmentFileUrl').value = fileUrl;
@@ -181,7 +181,7 @@ docReady(function() {
       } else if (target.matches('.edit-btn')) {
 
         let attachment = wppaAtachments[target.getAttribute('data-key')];
-        getAttachmentDetails(attachment.url, attachment.name, target.getAttribute('data-key'), attachment.cover_image);
+        getAttachmentDetails(attachment.url, attachment.name, attachment.description, target.getAttribute('data-key'), attachment.cover_image);
 
       }
   });
