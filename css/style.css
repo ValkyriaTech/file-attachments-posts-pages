@@ -51,14 +51,14 @@
 #attachmentDialog {
   position: fixed;
   width: 50%;
-  height: 50vh;
-  top: 25%;
+  height: 60vh;
+  top: 20%;
   left: 25%;
-  z-index: 999;
+  z-index: 1001;
   background-color: var(--background);
   box-shadow: 5px 5px 12px #444;
   border-radius: 1rem;
-  overflow: hidden;
+  overflow: auto;
   display: none;
   padding: 0 1rem;
 }

@@ -4,7 +4,7 @@
   * Plugin Name: PDF Attachments for WordPress Posts & Pages
   * Plugin URI: https://github.com/ValkyriaTech/wordpress-post-pdf-files/
   * Description:
-  * Version: 2.1.2
+  * Version: 2.1.3
   * Author: ValkyriaTech
   * Author URI: https://github.com/ValkyriaTech
   * License: GPLv3
@@ -24,7 +24,7 @@
       'main',
       plugin_dir_url(__FILE__) . 'js/main.min.js',
       null,
-      '2.1.2'
+      '2.1.3'
     );
 
     wp_enqueue_style(
@@ -47,7 +47,7 @@
       'style',
       plugin_dir_url(__FILE__) . 'css/style.min.css',
       null,
-      '2.1.2',
+      '2.1.3',
       'screen'
     );
 
