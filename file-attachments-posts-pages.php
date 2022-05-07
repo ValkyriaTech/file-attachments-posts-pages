@@ -1,10 +1,10 @@
 <?php
 
   /*
-  * Plugin Name: PDF Attachments for WordPress Posts & Pages
-  * Plugin URI: https://github.com/ValkyriaTech/wordpress-post-pdf-files/
+  * Plugin Name: File Attachments for Posts & Pages
+  * Plugin URI: https://github.com/ValkyriaTech/file-attachments-posts-pages/
   * Description:
-  * Version: 2.1.3
+  * Version: 2.2.0
   * Author: ValkyriaTech
   * Author URI: https://github.com/ValkyriaTech
   * License: GPLv3
@@ -28,14 +28,6 @@
     );
 
     wp_enqueue_style(
-      'fontawesome-css',
-      plugin_dir_url(__FILE__) . 'css/all.min.css',
-      null,
-      '5.15.1',
-      'screen'
-    );
-
-    wp_enqueue_style(
       'dropzone-css',
       plugin_dir_url(__FILE__) . 'css/dropzone.min.css',
       null,
@@ -53,17 +45,17 @@
 
     //custom metabox
     add_meta_box(
-      'wppa_attachments_block',
+      'fapp_attachments_block',
       'Anexos',
-      'wppa_attachments_block',
+      'fapp_attachments_block',
       'post',
       'side'
     );
 
     add_meta_box(
-      'wppa_attachments_block',
+      'fapp_attachments_block',
       'Anexos',
-      'wppa_attachments_block',
+      'fapp_attachments_block',
       'page',
       'side'
     );
@@ -71,9 +63,9 @@
   }
   add_action('add_meta_boxes', 'loadPdfFilesBox');
 
-  function wppa_attachments_block(){
+  function fapp_attachments_block() {
 
-    $attachments = get_post_meta(get_the_ID(), 'wppa_attachment_list', true) ?? '';
+    $attachments = get_post_meta(get_the_ID(), 'fapp_attachment_list', true) ?? '';
 
     $attachmentsListBlock = '';
     if(!empty($attachments)) {
@@ -82,9 +74,9 @@
         $attachmentsListBlock .= '<li class="att-item" id="attachment_' . $key . '">
           <span>' . $attachment->name . '</span>
           <div class="action-btns">
-            <a title="Abrir" class="link-btn" href="' . $attachment->url . '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>
-            <i title="Detalhes" data-key="' . $key . '" class="fas fa-edit edit-btn"></i>
-            <i title="Remover" data-key="' . $key . '" class="fas fa-times remove-btn"></i>
+            <a title="Open" class="link-btn" href="' . $attachment->url . '" target="blank" rel="noopener noreferrer"><i>🔗</i></a>
+            <i title="Details" data-key="' . $key . '" class="edit-btn">&#128393;</i>
+            <i title="Remove" data-key="' . $key . '" class="remove-btn">✖</i>
           </div>
         </li>';
       }
@@ -98,29 +90,29 @@
         </button>
         <div class="row">
           <div class="column">
-            <h3 id="wppa_attachmentTitleShow">Attachment Cover</h3>
-            <img title="Imagem de capa do anexo" id="wppa_attachmentCoverImageShow" src="<?= plugin_dir_url(__FILE__) . 'img/default.jpg' ?>" alt="Attachment Cover">
+            <h3 id="fapp_attachmentTitleShow">Attachment Cover</h3>
+            <img title="Imagem de capa do anexo" id="fapp_attachmentCoverImageShow" src="<?= plugin_dir_url(__FILE__) . 'img/default.jpg' ?>" alt="Attachment Cover">
           </div>
           <div class="column">
             <h3>Detalhes do anexo:</h3>
-            <input placeholder="Título" type="text" name="wppa_attachmentTitle" id="wppa_attachmentTitle">
+            <input placeholder="Título" type="text" name="fapp_attachmentTitle" id="fapp_attachmentTitle">
             <br>
-            <textarea placeholder="Descrição" type="text" name="wppa_attachmentDescription" id="wppa_attachmentDescription"></textarea>
+            <textarea placeholder="Descrição" type="text" name="fapp_attachmentDescription" id="fapp_attachmentDescription"></textarea>
             <br>
-            <label for="wppa_attachmentCoverImage" class="components-button is-secondary" id="wppa_attachmentCoverImageLabel" >
+            <label for="fapp_attachmentCoverImage" class="components-button is-secondary" id="fapp_attachmentCoverImageLabel" >
               <i class="far fa-file-image"></i>
               Alterar imagem de capa
             </label>
-            <input type="file" id="wppa_attachmentCoverImage" name="wppa_attachmentCoverImage" value="" size="25"/>
-            <input type="hidden" name="wppa_attachmentFileUrl" id="wppa_attachmentFileUrl" value="">
-            <button class="components-button is-primary" type="button" name="wppa_attachmentSend" id="wppa_attachmentSend">Salvar</button>
+            <input type="file" id="fapp_attachmentCoverImage" name="fapp_attachmentCoverImage" value="" size="25"/>
+            <input type="hidden" name="fapp_attachmentFileUrl" id="fapp_attachmentFileUrl" value="">
+            <button class="components-button is-primary" type="button" name="fapp_attachmentSend" id="fapp_attachmentSend">Salvar</button>
           </div>
         </div>
       </div>
 
-      <div action="<?= get_site_url() . '/wp-admin/admin-ajax.php?action=wppaUploadFile' ?>" id="attachmentDropzone" class="dropzone"></div>
+      <div action="<?= get_site_url() . '/wp-admin/admin-ajax.php?action=fappUploadFile' ?>" id="attachmentDropzone" class="dropzone"></div>
       <ul id="attachmentsContainer"><?= $attachmentsListBlock ?></ul>
-      <input type="hidden" id="wppa_attachment_list" name="wppa_attachment_list" value='<?= $attachments ?>'/>
+      <input type="hidden" id="fapp_attachment_list" name="fapp_attachment_list" value='<?= $attachments ?>'/>
       <script>
         var wpApiUrl = '<?= get_site_url() ?>/wp-admin/admin-ajax.php';
         var fileList = <?= (!empty($attachments) ? json_encode($attachments) : '""') ?>;
@@ -128,28 +120,33 @@
     <?php
   }
 
-  function wppa_metabox_save( $post_id ) {
+  function fapp_metabox_save( $post_id ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
     if ( $parent_id = wp_is_post_revision( $post_id ) ) {
         $post_id = $parent_id;
     }
     $fields = [
-        'wppa_attachment_list'
+      'fapp_attachment_list'
     ];
     foreach ( $fields as $field ) {
-        if ( array_key_exists( $field, $_POST ) ) {
-            update_post_meta( $post_id, $field, sanitize_text_field( $_POST[$field] ) );
-        }
-     }
+      if ( array_key_exists( $field, $_POST ) ) {
+        update_post_meta( $post_id, $field, sanitize_text_field( $_POST[$field] ) );
+      }
+    }
   }
-  add_action( 'save_post', 'wppa_metabox_save' );
+  add_action('save_post', 'fapp_metabox_save');
 
-  function wppaUploadFile() {
+  function fappUploadFile() {
 
     $attachments = $_FILES['file'];
 
-    // Setup the array of supported file types. In this case, it's just PDF.
-    $supported_types = array('application/pdf', 'application/vnd.oasis.opendocument.text', 'application/msword');
+    $supported_types = [
+      'text/plain',
+      'text/csv',
+      'application/pdf',
+      'application/vnd.oasis.opendocument.text',
+      'application/msword'
+    ];
 
     // Get the file type of the upload
     $arr_file_type = wp_check_filetype(basename($attachments['name']));
@@ -173,10 +170,10 @@
 
     die();
   }
-  add_action('wp_ajax_wppaUploadFile', 'wppaUploadFile');
-  add_action('wp_ajax_nopriv_wppaUploadFile', 'wppaUploadFile');
+  add_action('wp_ajax_fappUploadFile', 'fappUploadFile');
+  add_action('wp_ajax_nopriv_fappUploadFile', 'fappUploadFile');
 
-  function wppaUploadImage() {
+  function fappUploadImage() {
 
     $attachments = $_FILES['file'];
 
@@ -205,7 +202,7 @@
 
     die();
   }
-  add_action('wp_ajax_wppaUploadImage', 'wppaUploadImage');
-  add_action('wp_ajax_nopriv_wppaUploadImage', 'wppaUploadImage');
+  add_action('wp_ajax_fappUploadImage', 'fappUploadImage');
+  add_action('wp_ajax_nopriv_fappUploadImage', 'fappUploadImage');
 
 ?>

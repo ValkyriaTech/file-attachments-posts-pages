@@ -92,10 +92,10 @@
         height: auto;
         border-radius: .2rem;
       }
-      #attachmentDialog .row .column #wppa_attachmentCoverImage {
+      #attachmentDialog .row .column #fapp_attachmentCoverImage {
         display: none;
       }
-      #attachmentDialog .row .column #wppa_attachmentCoverImageLabel i {
+      #attachmentDialog .row .column #fapp_attachmentCoverImageLabel i {
         margin-right: .5rem;
         font-size: 120%;
       }
@@ -107,7 +107,7 @@
         width: 90%;
         margin-bottom: 2rem;
       }
-      #attachmentDialog .row .column #wppa_attachmentSend {
+      #attachmentDialog .row .column #fapp_attachmentSend {
         width: 5rem;
         margin-top: 3rem;
         display: flex;
@@ -151,4 +151,5 @@
         margin-left: .5rem;
         margin-right: 1rem;
         width: 7.5rem;
+        overflow: hidden;
       }

@@ -1,7 +1,7 @@
-# Attachments for WordPress Posts & Pages
+# File Attachments for Posts & Pages
 Custom metabox controller to upload and manage posts / pages attachments
 
-The custom metabox name is <code>wppa_attachment_list</code>. It's saved as a JSON *object* list:
+The custom metabox name is <code>fapp_attachment_list</code>. It's saved as a JSON *object* list:
 
 ```json
 {
@@ -10,6 +10,17 @@ The custom metabox name is <code>wppa_attachment_list</code>. It's saved as a JS
   "cover_image": "http://xyz/nice_image.jpg",
   "url": "http://xyz/nice_doc.pdf"
 }
+```
+
+### Supported file types
+```php
+[
+  'text/plain',
+  'text/csv',
+  'application/pdf',
+  'application/vnd.oasis.opendocument.text',
+  'application/msword'
+]
 ```
 
 **Just download the source and install it as a plugin.**

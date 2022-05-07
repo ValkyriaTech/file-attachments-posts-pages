@@ -1,4 +1,4 @@
-var wppaAtachments = [];
+var fappAtachments = [];
 
 Dropzone.autoDiscover = false;
 
@@ -29,17 +29,17 @@ function getAttachmentDetails(fileUrl, fileName, description = null, attachmentK
 
   let dialog = document.getElementById('attachmentDialog');
 
-  dialog.querySelector('#wppa_attachmentTitle').value = fileName;
-  dialog.querySelector('#wppa_attachmentDescription').value = description;
-  dialog.querySelector('#wppa_attachmentTitleShow').innerHTML = fileName;
+  dialog.querySelector('#fapp_attachmentTitle').value = fileName;
+  dialog.querySelector('#fapp_attachmentDescription').value = description;
+  dialog.querySelector('#fapp_attachmentTitleShow').innerHTML = fileName;
 
-  dialog.querySelector('#wppa_attachmentFileUrl').value = fileUrl;
+  dialog.querySelector('#fapp_attachmentFileUrl').value = fileUrl;
 
   if (attachmentKey != null)
-    dialog.querySelector('#wppa_attachmentSend').setAttribute('data-key', attachmentKey);
+    dialog.querySelector('#fapp_attachmentSend').setAttribute('data-key', attachmentKey);
 
   if (attachmentCoverImage != null)
-    dialog.querySelector('#wppa_attachmentCoverImageShow').setAttribute('src', attachmentCoverImage);
+    dialog.querySelector('#fapp_attachmentCoverImageShow').setAttribute('src', attachmentCoverImage);
 
   dialog.classList.add('attach-dialog-show');
 
@@ -47,12 +47,12 @@ function getAttachmentDetails(fileUrl, fileName, description = null, attachmentK
 
 function uploadAttachCover(singleFile) {
 
-  loader('wppa_attachmentSend');
+  loader('fapp_attachmentSend');
 
   let formData = new FormData();
 
   formData.append('file', singleFile, singleFile.name);
-  formData.append('action', 'wppaUploadImage');
+  formData.append('action', 'fappUploadImage');
 
   let request = new XMLHttpRequest();
   request.open("POST", wpApiUrl, true);
@@ -63,8 +63,8 @@ function uploadAttachCover(singleFile) {
       let resp = this.response;
       if(resp != null && resp != '') {
 
-        document.getElementById('wppa_attachmentCoverImageShow').setAttribute('src', resp);
-        loader('wppa_attachmentSend', 'stop');
+        document.getElementById('fapp_attachmentCoverImageShow').setAttribute('src', resp);
+        loader('fapp_attachmentSend', 'stop');
 
       }
 
@@ -82,17 +82,17 @@ function uploadAttachCover(singleFile) {
 }
 
 function closeAttachmentDialog() {
-  document.getElementById('wppa_attachmentSend').removeAttribute('data-key');
+  document.getElementById('fapp_attachmentSend').removeAttribute('data-key');
   document.getElementById('attachmentDialog').classList.remove('attach-dialog-show');
 }
 
 docReady(function() {
 
   if(fileList != null && fileList != '')
-    wppaAtachments = JSON.parse(fileList);
+    fappAtachments = JSON.parse(fileList);
 
   var attachmentDropzone = new Dropzone('div#attachmentDropzone', {
-    dictDefaultMessage: 'Solte arquivos aqui',
+    dictDefaultMessage: 'Drop files here',
     init: function() {
       this.on('success', function(file, response) {
 
@@ -105,11 +105,11 @@ docReady(function() {
   let dialog = document.getElementById('attachmentDialog');
   if (dialog) {
 
-    document.getElementById('wppa_attachmentTitle').addEventListener('change', function() {
-      document.getElementById('wppa_attachmentTitleShow').innerHTML = this.value;
+    document.getElementById('fapp_attachmentTitle').addEventListener('change', function() {
+      document.getElementById('fapp_attachmentTitleShow').innerHTML = this.value;
     });
 
-    let inputElement = document.getElementById('wppa_attachmentCoverImage');
+    let inputElement = document.getElementById('fapp_attachmentCoverImage');
     inputElement.addEventListener('change', function() {
 
       let singleFile = inputElement.files[0];
@@ -117,40 +117,40 @@ docReady(function() {
 
     });
 
-    document.getElementById('wppa_attachmentSend').addEventListener('click', function() {
+    document.getElementById('fapp_attachmentSend').addEventListener('click', function() {
 
       let uploadedFile = {
-        name: document.getElementById('wppa_attachmentTitle').value,
-        description: document.getElementById('wppa_attachmentDescription').value,
-        cover_image: document.getElementById('wppa_attachmentCoverImageShow').getAttribute('src'),
-        url: document.getElementById('wppa_attachmentFileUrl').value
+        name: document.getElementById('fapp_attachmentTitle').value,
+        description: document.getElementById('fapp_attachmentDescription').value,
+        cover_image: document.getElementById('fapp_attachmentCoverImageShow').getAttribute('src'),
+        url: document.getElementById('fapp_attachmentFileUrl').value
       };
 
       // editing
       if (this.getAttribute('data-key')) {
 
         let key = this.getAttribute('data-key');
-        wppaAtachments[key] = uploadedFile;
+        fappAtachments[key] = uploadedFile;
         console.log(key);
         let attItemBlock = document.getElementById('attachment_' + key);
         console.log(attItemBlock);
         attItemBlock.querySelector('span').innerHTML = uploadedFile.name;
 
       } else {
-        wppaAtachments.push(uploadedFile);
+        fappAtachments.push(uploadedFile);
 
-        let attachmentItemBlock = '<li class="att-item" id="attachment_' + (wppaAtachments.length - 1) + '">' +
+        let attachmentItemBlock = '<li class="att-item" id="attachment_' + (fappAtachments.length - 1) + '">' +
           '<span>' + uploadedFile.name + '</span>' +
           '<div class="action-btns">' +
-            '<a title="Abrir" class="link-btn" href="' + uploadedFile.url + '" target="blank" rel="noopener noreferrer"><i class="fas fa-link"></i></a>' +
-            '<i title="Detalhes" data-key="' + (wppaAtachments.length - 1) + '" class="fas fa-edit edit-btn"></i>' +
-            '<i title="Remover" data-key="' + (wppaAtachments.length - 1) + '" class="fas fa-times remove-btn"></i>' +
+            '<a title="Open" class="link-btn" href="' + uploadedFile.url + '" target="blank" rel="noopener noreferrer"><i>🔗</i></a>' +
+            '<i title="Details" data-key="' + (fappAtachments.length - 1) + '" class="edit-btn">&#128393;</i>' +
+            '<i title="Remove" data-key="' + (fappAtachments.length - 1) + '" class="remove-btn">✖</i>' +
           '</div>' +
         '</li>';
         document.getElementById('attachmentsContainer').innerHTML += attachmentItemBlock;
       }
 
-      document.getElementById('wppa_attachment_list').value = JSON.stringify(wppaAtachments);
+      document.getElementById('fapp_attachment_list').value = JSON.stringify(fappAtachments);
 
       // clear data
       closeAttachmentDialog();
@@ -167,8 +167,8 @@ docReady(function() {
     for (var target = e.target; target && target != this; target = target.parentNode)
       if (target.matches('.remove-btn')) {
 
-        wppaAtachments.splice(target.getAttribute('data-key'), 1);
-        document.getElementById('wppa_attachment_list').value = JSON.stringify(wppaAtachments);
+        fappAtachments.splice(target.getAttribute('data-key'), 1);
+        document.getElementById('fapp_attachment_list').value = JSON.stringify(fappAtachments);
         target.parentNode.parentNode.remove();
 
         document.getElementById('attachmentsContainer').querySelectorAll('li').forEach((item, i) => {
@@ -180,7 +180,7 @@ docReady(function() {
 
       } else if (target.matches('.edit-btn')) {
 
-        let attachment = wppaAtachments[target.getAttribute('data-key')];
+        let attachment = fappAtachments[target.getAttribute('data-key')];
         getAttachmentDetails(attachment.url, attachment.name, attachment.description, target.getAttribute('data-key'), attachment.cover_image);
 
       }
