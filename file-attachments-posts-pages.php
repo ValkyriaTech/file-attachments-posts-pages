@@ -24,7 +24,7 @@
       'main',
       plugin_dir_url(__FILE__) . 'js/main.min.js',
       null,
-      '2.1.3'
+      '2.2.0'
     );
 
     wp_enqueue_style(
@@ -39,7 +39,7 @@
       'style',
       plugin_dir_url(__FILE__) . 'css/style.min.css',
       null,
-      '2.1.3',
+      '2.2.0',
       'screen'
     );
 
