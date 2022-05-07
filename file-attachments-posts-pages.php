@@ -3,8 +3,8 @@
   /*
   * Plugin Name: File Attachments for Posts & Pages
   * Plugin URI: https://github.com/ValkyriaTech/file-attachments-posts-pages/
-  * Description:
-  * Version: 2.2.0
+  * Description: This plugin will add a custom metabox controller to attach document files to posts & pages
+  * Version: 2.2.1
   * Author: ValkyriaTech
   * Author URI: https://github.com/ValkyriaTech
   * License: GPLv3
